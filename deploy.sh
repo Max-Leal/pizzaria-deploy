@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#Installing all the packets the file needs to run properly
+apt update && apt install docker.io -y && apt install docker-compose -y && apt install cron -y && apt install lsof -y
+
+#Global variables
+IP=$(hostname -I | awk '{print $1}')
+LOCAL=$(readlink -f "$0")
+CRON_TASK="*/5 * * * * $LOCAL run"
+
+#Verifies if this file is already in crontab, if it's not then it adds
+crontab -l 2>/dev/null | grep -Fq "$CRON_TASK" || (crontab -l 2>/dev/null; echo "$CRON_TASK") | crontab -
+
+#Verify if there is something using the ports 8080, 5000 or 5001
+#docker ps | grep 8080 | awk '{ print $1}'
+#docker-compose ps | grep 8080 | awk '{ print $1}'
+
+#Verifying if the project already exists in the directory
+if [ -d "proway-docker" ]; then
+        cd ./proway-docker
+        git pull origin
+        cd ./proway-docker/pizzaria-app
+else
+        git clone https://github.com/max-leal/proway-docker
+        cd ./proway-docker/pizzaria-app
+       
+fi
+sed -i "s/localhost/$IP/g" ./frontend/public/index.html
+ docker-compose up --build -d
