@@ -18,7 +18,8 @@ crontab -l 2>/dev/null | grep -Fq "$CRON_TASK" || (crontab -l 2>/dev/null; echo 
 #Verifying if the project already exists in the directory
 if [ -d "proway-docker" ]; then
     	cd ./proway-docker
-    	git pull origin
+    	git reset --hard HEAD
+    	git pull https://github.com/max-leal/proway-docker main
     	cd ./pizzaria-app
 else
     	git clone https://github.com/max-leal/proway-docker
@@ -26,4 +27,4 @@ else
 
 fi
 sed -i "s/localhost/$IP/g" ./frontend/public/index.html
- docker-compose up --build -d
+docker-compose up --build -d
