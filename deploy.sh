@@ -12,8 +12,10 @@ CRON_TASK="*/5 * * * * $LOCAL run"
 crontab -l 2>/dev/null | grep -Fq "$CRON_TASK" || (crontab -l 2>/dev/null; echo "$CRON_TASK") | crontab -
 
 #Verify if there is something using the ports 8080, 5000 or 5001
-#docker ps | grep 8080 | awk '{ print $1}'
-#docker-compose ps | grep 8080 | awk '{ print $1}'
+for porta in 8080 5001; do
+  docker stop $(docker ps | grep $porta | awk '{ print $1}')
+  lsof -ti:$porta | xargs -r kill -9
+done
 
 #Verifying if the project already exists in the directory
 if [ -d "proway-docker" ]; then
@@ -22,7 +24,7 @@ if [ -d "proway-docker" ]; then
     	git pull https://github.com/max-leal/proway-docker main
     	cd ./pizzaria-app
 else
-    	git clone https://github.com/max-leal/proway-docker
+    	git clone https://github.com/max-leal/proway-docker .
     	cd ./proway-docker/pizzaria-app
 
 fi
