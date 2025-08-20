@@ -24,7 +24,7 @@ if [ -d "proway-docker" ]; then
     	git pull https://github.com/max-leal/proway-docker main
     	cd ./pizzaria-app
 else
-    	git clone https://github.com/max-leal/proway-docker .
+    	git clone https://github.com/max-leal/proway-docker.git .
     	cd ./proway-docker/pizzaria-app
 
 fi
