@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #Installing all the packets the file needs to run properly
 apt update && apt install docker.io -y && apt install docker-compose -y && apt install cron -y && apt install lsof -y && apt install git -y
