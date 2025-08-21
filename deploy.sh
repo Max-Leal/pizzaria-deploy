@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #Installing all the packets the file needs to run properly
-apt update && apt install docker.io -y && apt install docker-compose -y && apt install cron -y && apt install lsof -y && apt install git -y
+apt update && apt install -y docker.io docker-compose cron lsof git
 
 #Global variables
 IP=$(hostname -I | awk '{print $1}')
@@ -13,7 +13,7 @@ crontab -l 2>/dev/null | grep -Fq "$CRON_TASK" || (crontab -l 2>/dev/null; echo 
 
 #Remove anything that is using port 8080 or 5001,
 for porta in 8080 5001; do
-  docker stop $(docker ps | grep $porta | awk '{ print $1}')
+  docker stop $(docker ps | grep $porta | awk '{ print $1}') #fazer com que ele pare todos os processos rodando nessa porta
   #Uses lsof to look for any process (that is not a docker) that is using one of the doors, then kills it
   lsof -ti:$porta | xargs -r kill -9
 done
