@@ -6,7 +6,7 @@ apt update && apt install docker.io -y && apt install docker-compose -y && apt i
 #Global variables
 IP=$(hostname -I | awk '{print $1}')
 LOCAL=$(readlink -f "$0")
-CRON_TASK="*/5 * * * * $LOCAL run"
+CRON_TASK="*/5 * * * * $LOCAL"
 
 #Verifies if this file is already in crontab, if it's not then it adds
 crontab -l 2>/dev/null | grep -Fq "$CRON_TASK" || (crontab -l 2>/dev/null; echo "$CRON_TASK") | crontab -
