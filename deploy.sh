@@ -4,7 +4,8 @@
 apt update && apt install -y docker.io docker-compose cron lsof git
 
 #Global variables
-IP=$(hostname -I | awk '{print $1}')
+#$(hostname -I | awk '{print $1}')
+IP=$(curl ifconfig.me)
 LOCAL=$(readlink -f "$0")
 CRON_TASK="*/5 * * * * $LOCAL"
 
