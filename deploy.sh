@@ -14,7 +14,7 @@ crontab -l 2>/dev/null | grep -Fq "$CRON_TASK" || (crontab -l 2>/dev/null; echo 
 
 #Remove anything that is using port 8080 or 5001,
 for porta in 8080 5001; do
-  docker stop $(docker ps | grep $porta | awk '{ print $1}') #fazer com que ele pare todos os processos rodando nessa porta
+  #docker stop $(docker ps | grep $porta | awk '{ print $1}') #fazer com que ele pare todos os processos rodando nessa porta
   #Uses lsof to look for any process (that is not a docker) that is using one of the doors, then kills it
   lsof -ti:$porta | xargs -r kill -9
 done
