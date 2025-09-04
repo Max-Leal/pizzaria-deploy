@@ -3,7 +3,7 @@
 #Installing all the packets the file needs to run properly
 apt update && apt install -y docker.io docker-compose cron lsof git
 
-for service in docker crond; do
+for service in docker cron; do
     systemctl start $service
     systemctl enable $service
 done
